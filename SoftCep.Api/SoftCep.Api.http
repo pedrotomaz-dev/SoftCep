@@ -1,0 +1,6 @@
+@SoftCep.Api_HostAddress = http://localhost:5210
+
+GET {{SoftCep.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
