@@ -10,5 +10,4 @@ Este projeto foi desenvolvido como parte de um **desafio técnico**, com foco em
 - Aplicar **boas práticas de arquitetura** (DDD, SOLID, Clean Architecture)
 - Demonstrar **integração com serviços externos** (ViaCEP)
 - Implementar **testes automatizados** (xUnit)
-- Adotar **integração e entrega contínuas (CI/CD)** via **GitHub Actions**
 - Utilizar **Docker** para empacotamento e deploy
