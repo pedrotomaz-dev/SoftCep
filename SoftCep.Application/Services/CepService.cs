@@ -5,18 +5,36 @@ using SoftCep.Domain.Interfaces;
 
 namespace SoftCep.Application.Services;
 
-public class CepService(IViaCepGateway viaCep) : ICepService
+public class CepService(IViaCepGateway viaCep, IEnderecoRepository enderecoRepository) : ICepService
 {
     public async Task<CepDto?> GetByCepAsync(string cep, CancellationToken cancellationToken = default)
     {
         Validate(cep);
 
-        var domain = await viaCep.GetByCepAsync(cep, cancellationToken);
-        if (domain is null) return null;
-        return ToDto(domain);   
+        #region buscar na api viacep
+        try
+        {
+            var endereco = await viaCep.GetByCepAsync(cep, cancellationToken);
+            if (endereco is null)
+                throw new Exception();
+            return ToDto(endereco);
+        }
+        catch (Exception ex)
+        {
+            // Ignorar exception do via cep
+        } 
+        #endregion
+
+        #region buscar na base de dados
+        var enderecoDB = await enderecoRepository.GetByCepAsync(cep, cancellationToken);
+        if (enderecoDB is null)
+            return null;
+
+        return new CepDto(enderecoDB.Cep, enderecoDB.Logradouro, enderecoDB.Bairro, enderecoDB.Cidade, enderecoDB.Uf);
+        #endregion
     }
 
-    
+
     public async Task<IEnumerable<CepDto>> GetByAddressAsync(string uf, string cidade, string logradouro, CancellationToken cancellationToken = default)
     {
         var list = await viaCep.GetByAddressAsync(uf, cidade, logradouro, cancellationToken);
@@ -25,7 +43,7 @@ public class CepService(IViaCepGateway viaCep) : ICepService
 
 
     #region Private Methods
-    private CepDto ToDto(Cep c) => new CepDto(c.Value, c.Logradouro, c.Bairro, c.Localidade, c.Uf);
+    private CepDto ToDto(Cep c) => new CepDto(c.Numero, c.Logradouro, c.Bairro, c.Localidade, c.Uf);
 
 
     private void Validate(string cep)

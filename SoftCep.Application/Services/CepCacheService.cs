@@ -17,7 +17,7 @@ public class CepCacheService : ICepCacheService
 
     public Task SetAsync(Cep cep, TimeSpan ttl)
     {
-        _cache.Set(cep.Value, cep, ttl);
+        _cache.Set(cep.Numero, cep, ttl);
         return Task.CompletedTask;
     }
 }

@@ -2,7 +2,7 @@
 
 public sealed class Cep
 {
-    public string Value { get; }
+    public string Numero { get; }
     public string? Logradouro { get; private set; }
     public string? Bairro { get; private set; }
     public string? Localidade { get; private set; }
@@ -14,8 +14,8 @@ public sealed class Cep
             throw new ArgumentException("CEP inválido", nameof(value));
 
         // normalize: remove non-digits
-        Value = new string(value.Where(char.IsDigit).ToArray());
-        if (Value.Length != 8)
+        Numero = new string(value.Where(char.IsDigit).ToArray());
+        if (Numero.Length != 8)
             throw new ArgumentException("CEP deve conter 8 dígitos.", nameof(value));
     }
 
