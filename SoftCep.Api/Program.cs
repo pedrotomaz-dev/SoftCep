@@ -12,15 +12,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
+
 
 app.UseGlobalExceptionHandling(app.Logger);
 
-if (app.Environment.IsDevelopment()) 
-{ 
+//if (app.Environment.IsDevelopment()) 
+//{ 
     app.UseSwagger(); 
     app.UseSwaggerUI(); 
-}
+//}
 
 app.MapCepEndpoints();
 

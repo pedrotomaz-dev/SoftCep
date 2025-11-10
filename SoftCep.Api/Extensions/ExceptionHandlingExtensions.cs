@@ -34,7 +34,7 @@ public static class ExceptionHandlingExtensions
             {
                 logger.LogError(ex, "Erro interno inesperado.");
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                await context.Response.WriteAsJsonAsync(new { error = "Erro interno do servidor." });
+                await context.Response.WriteAsJsonAsync(new { error = ex.Message ?? "Erro interno do servidor." });
             }
         });
 
