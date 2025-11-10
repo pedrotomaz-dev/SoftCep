@@ -1,6 +1,7 @@
 ﻿using SoftCep.Application.DTOs;
 using SoftCep.Application.Interfaces;
 using SoftCep.Domain.Entities;
+using SoftCep.Domain.Exceptions;
 using SoftCep.Domain.Interfaces;
 
 namespace SoftCep.Application.Services;
@@ -22,7 +23,7 @@ public class CepService(IViaCepGateway viaCep, IEnderecoRepository enderecoRepos
         catch (Exception ex)
         {
             // Ignorar exception do via cep
-        } 
+        }
         #endregion
 
         #region buscar na base de dados
